@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student View</title>
+    <style>
+        table, thead, tbody,tr,td {
+            border:1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <h1>View of Student Database</h1>
+    <table>
+        <thead>
+            <th>STU_ID</th>
+            <th>STU_NAME</th>
+            <th>STU_EMAIL</th>
+            <th>STU_PASS</th>
+        </thead>
+        <tbody>
+            {% for student in fullview %}
+                <tr>
+                    <td>{{student.stuid}}</td>
+                    <td>{{student.stuname}}</td>
+                    <td>{{student.stuemail}}</td>
+                    <td>{{student.stupass}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>View Name That Start's With B</h2>
+    <table>
+        <thead>
+            <th>STU_ID</th>
+            <th>STU_NAME</th>
+            <th>STU_EMAIL</th>
+            <th>STU_PASS</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{filter.stuid}}</td>
+                <td>{{filter.stuname}}</td>
+                <td>{{filter.stuemail}}</td>
+                <td>{{filter.stupass}}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
