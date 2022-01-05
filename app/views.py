@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from .models import Student
+from .forms import PersonForm
+
 # Create your views here.
 
 def get_list(request):
@@ -16,3 +18,7 @@ def startingWithB(request):
         'filter':StartsWithB,
     }
     return render(request, 'app/main.html', context_filter)
+
+def getform(request):
+    fm = PersonForm()
+    return render(request, 'app/main.html', {'form':fm})
