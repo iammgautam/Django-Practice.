@@ -1,5 +1,6 @@
 from django.urls import path
-from .views import postform
+from .views import form, getlist
 urlpatterns = [
-    path('', postform, name='form'),
+    path('', form, name='form'),
+    path('list/', getlist, name='list')
 ]

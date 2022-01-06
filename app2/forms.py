@@ -1,9 +1,11 @@
 from django import forms
+from django.forms import widgets
+from .models import Person
 
-GENDER_CHOICE = [
-    ('Male','Male'),
-    ('Female','Female'),
-]
-
-class Person(forms.Form):
-    name = forms.CharField(label = 'Your Name:: ')
+class PersonForm(forms.ModelForm):
+    class Meta:
+        model = Person
+        fields = ['name','email', 'password']
+        widgets = {
+            'password':forms.PasswordInput(attrs={'placeholder':'Enter password'}),
+        }
