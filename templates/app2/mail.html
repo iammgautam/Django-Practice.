@@ -1,43 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Forms</title>
-</head>
-<body>
-    <form action="" method='POST'>
-        {% csrf_token %}
-        {% for field in form %}
-        <p>
-            {{field.label_tag}}
-            {{field}}
-        </p>
-        {% endfor %}
-        <input type="submit" value="Submit">
+    <style>
+      table,
+      thead,
+      tbody,
+      tr,
+      td {
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="" method="POST">
+      {% csrf_token %} {% for field in form %}
+      <p>{{field.label_tag}} {{field}}</p>
+      {% endfor %}
+      <input type="submit" value="Submit" />
     </form>
-    <a href="{% url 'list' %}">Database Table</a>
-
 
     <h1>View of The Database</h1>
     <table>
-        <thead>
-            <th>STU_ID</th>
-            <th>STU_NAME</th>
-            <th>STU_EMAIL</th>
-            <th>STU_PASS</th>
-        </thead>
-        <tbody>
-            {% for student in fullview %}
-                <tr>
-                    <td>{{student.id}}</td>
-                    <td>{{student.name}}</td>
-                    <td>{{student.email}}</td>
-                    <td>{{student.password}}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
+      <thead>
+        <th>STU_NAME</th>
+        <th>STU_EMAIL</th>
+        <th>STU_PASS</th>
+        <th>OPTION</th>
+      </thead>
+      <tbody>
+        {% for student in fullview %}
+        <tr>
+          <td><a href="{% url 'detail' student.id %}">{{student.name}}</a></td>
+          <td>{{student.email}}</td>
+          <td>{{student.password}}</td>
+          <td>
+            <a href="{% url 'update' student.id %}"
+              ><input type="button" value="Update" />
+            </a>
+            <form action="{% url 'delete' student.id %}" method="POST">
+              {% csrf_token %}<input type="submit" value="Delete" />
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
-</body>
+
+    {% comment %} <a href="{% url 'detail' %}">Detail View</a> {% endcomment %}
+  </body>
 </html>

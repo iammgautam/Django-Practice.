@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Person Detail</title>
+</head>
+<body>
+    <h1>This is Person {{detail.name}}</h1>
+    <p>
+        ID: {{detail.id}}<br>
+        Name: {{detail.name}}<br>
+        Email: {{detail.email}}<br>
+        Password: {{detail.password}}<br>
+    </p>
+   <a href="{% url 'form' %}">Form Page</a>
+</body>
+</html>
