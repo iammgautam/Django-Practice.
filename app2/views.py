@@ -1,10 +1,25 @@
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import Person
-from .forms import PersonForm
+from .forms import PersonForm, RegisterForm
 from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages 
 # Create your views here.
 
+#this function will signup users.
+def register(request):
+    if request.method == 'POST':
+        fm = RegisterForm(request.POST)
+        if fm.is_valid():
+            messages.success(request, 'Account Created SUccessfully!!')
+            fm.save()
+            return redirect("signup")
+    else:
+        fm = RegisterForm()
+    return render(request, 'app2/signup.html', {'form':fm})
+
+#this function will sumbit the form and display the list.
 def form(request):
     if request.method == 'POST':
         fm = PersonForm(request.POST)
