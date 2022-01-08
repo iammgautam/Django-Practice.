@@ -2,6 +2,7 @@ from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import Person
 from .forms import PersonForm
+from django.contrib import messages
 # Create your views here.
 
 def form(request):
@@ -13,6 +14,7 @@ def form(request):
             Pass = fm.cleaned_data['password']
             reg = Person(name =Name, email = Email, password=Pass)
             reg.save()
+            messages.add_message(request, messages.SUCCESS, 'Your Account has been created!!')
             fm = PersonForm()
             return redirect(request.path)
     else:

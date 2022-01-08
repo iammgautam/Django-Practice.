@@ -22,7 +22,15 @@
       {% endfor %}
       <input type="submit" value="Submit" />
     </form>
-
+    <br>
+    <br>
+    <hr>
+    {% if messages %}
+      {% for message in messages %}
+        {% if message.tags %}{{message.tags}}{% endif %}
+        {{message}}
+      {% endfor %}
+    {% endif %}
     <h1>View of The Database</h1>
     <table>
       <thead>
