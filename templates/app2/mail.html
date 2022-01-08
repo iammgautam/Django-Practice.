@@ -22,15 +22,10 @@
       {% endfor %}
       <input type="submit" value="Submit" />
     </form>
-    <br>
-    <br>
-    <hr>
-    {% if messages %}
-      {% for message in messages %}
-        {% if message.tags %}{{message.tags}}{% endif %}
-        {{message}}
-      {% endfor %}
-    {% endif %}
+    <br />
+    <br />
+    <hr />
+    {% if messages %} {% for message in messages %} {% if message.tags%}{{message.tags}}{% endif %} {{message}} {% endfor %} {% endif %}
     <h1>View of The Database</h1>
     <table>
       <thead>
@@ -57,7 +52,9 @@
         {% endfor %}
       </tbody>
     </table>
-
+    <br />
+    <br />
+    <a href="{% url 'logout' %}">Logout</a>
     {% comment %} <a href="{% url 'detail' %}">Detail View</a> {% endcomment %}
   </body>
 </html>

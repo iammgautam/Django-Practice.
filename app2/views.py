@@ -1,20 +1,47 @@
+from django.contrib import auth
+from django.contrib.auth.backends import RemoteUserBackend
 from django.http.response import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from .models import Person
 from .forms import PersonForm, RegisterForm
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib import messages 
+from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
-#this function will signup users.
+#this function is allow login
+def signin(request):
+    if not request.user.is_authenticated:
+        if request.method=='POST':
+            fm = AuthenticationForm(request=request, data=request.POST)
+            if fm.is_valid():
+                uname = fm.cleaned_data['username']
+                upass = fm.cleaned_data['password']
+                user = authenticate(username=uname, password=upass)
+                if user is not None:
+                    login(request,user)
+                    return HttpResponseRedirect('/profile/')
+        else:
+            fm = AuthenticationForm()
+        return render(request,'app2/login.html', {'form':fm})
+    else:
+        return HttpResponseRedirect('/profile/')
+
+#this function will help o logout the user
+def user_logout(request):
+    logout(request)
+    # return render_to_response('login.html', {'request': request})
+    return HttpResponseRedirect('/login/')
+
+# this function will signup users.
 def register(request):
     if request.method == 'POST':
         fm = RegisterForm(request.POST)
         if fm.is_valid():
             messages.success(request, 'Account Created SUccessfully!!')
             fm.save()
-            return redirect("signup")
+            return redirect("login")
     else:
         fm = RegisterForm()
     return render(request, 'app2/signup.html', {'form':fm})
@@ -72,3 +99,9 @@ def delete(request, id):
         delitem = Person.objects.get(pk=id)
         delitem.delete()
         return HttpResponseRedirect('/')
+
+def mainpage(request):
+    if request.user.is_authenticated:
+        return render(request, 'app2/profile.html', {'form':request.user})
+    else:
+        return render(request, 'app2/error404.html')
