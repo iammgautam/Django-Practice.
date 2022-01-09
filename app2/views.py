@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 # Create your views here.
 
-#this function is allow login
+#this function will allow users to login
 def signin(request):
     if not request.user.is_authenticated:
         if request.method=='POST':
@@ -21,12 +21,12 @@ def signin(request):
                 user = authenticate(username=uname, password=upass)
                 if user is not None:
                     login(request,user)
-                    return HttpResponseRedirect('/profile/')
+                    return HttpResponseRedirect('/')
         else:
             fm = AuthenticationForm()
         return render(request,'app2/login.html', {'form':fm})
     else:
-        return HttpResponseRedirect('/profile/')
+        return HttpResponseRedirect('/')
 
 #this function will help o logout the user
 def user_logout(request):
@@ -48,26 +48,28 @@ def register(request):
 
 #this function will sumbit the form and display the list.
 def form(request):
-    if request.method == 'POST':
-        fm = PersonForm(request.POST)
-        if fm.is_valid():
-            Name = fm.cleaned_data['name']
-            Email = fm.cleaned_data['email']
-            Pass = fm.cleaned_data['password']
-            reg = Person(name =Name, email = Email, password=Pass)
-            reg.save()
-            messages.add_message(request, messages.SUCCESS, 'Your Account has been created!!')
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            fm = PersonForm(request.POST)
+            if fm.is_valid():
+                Name = fm.cleaned_data['name']
+                Email = fm.cleaned_data['email']
+                Pass = fm.cleaned_data['password']
+                reg = Person(name =Name, email = Email, password=Pass)
+                reg.save()
+                fm = PersonForm()
+                return redirect(request.path)
+        else:
             fm = PersonForm()
-            return redirect(request.path)
-    else:
-        fm = PersonForm()
 
-    list = Person.objects.all()
-    context = {
-        'form':fm,
-        'fullview':list,
-    }
-    return render(request, 'app2/mail.html', context)
+        list = Person.objects.all()
+        context = {
+            'form':fm,
+            'fullview':list,
+        }
+        return render(request, 'app2/mail.html', context)
+    else:
+        return render(request, 'app2/error404.html')
 
 def detail(request, id):
     getit = Person.objects.get(pk=id)
